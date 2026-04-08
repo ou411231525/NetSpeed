@@ -111,9 +111,21 @@ jobs:
             exit 1
           fi
 
+      - name: Package build output
+        run: |
+          if [ -d "./DerivedData/Build/Products/Debug-iphonesimulator/NetSpeed.app" ]; then
+            cd ./DerivedData/Build/Products/Debug-iphonesimulator
+            zip -r NetSpeed.app.zip NetSpeed.app
+            echo "Package created successfully"
+            ls -la NetSpeed.app.zip
+          else
+            echo "ERROR: NetSpeed.app not found"
+            exit 1
+          fi
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: NetSpeed-App
-          path: ./DerivedData/Build/Products/Debug-iphonesimulator/NetSpeed.app
+          path: ./DerivedData/Build/Products/Debug-iphonesimulator/NetSpeed.app.zip
           retention-days: 7
