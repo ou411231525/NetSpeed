@@ -73,7 +73,7 @@ jobs:
           xcodebuild -project NetSpeed.xcodeproj \
             -scheme NetSpeed \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.5' \
             -derivedDataPath ./DerivedData \
             build CODE_SIGNING_ALLOWED=NO 2>&1 | tee build_output.log
           echo ""
