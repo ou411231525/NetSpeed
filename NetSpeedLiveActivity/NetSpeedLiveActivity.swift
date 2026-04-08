@@ -167,7 +167,14 @@ struct LockScreenView: View {
 }
 
 // MARK: - Preview
-#Preview("Live Activity", as: .content, using: NetSpeedLiveActivityAttributes.self) {
+#if DEBUG
+@available(iOS 17.0, *)
+#Preview("Live Activity", as: .content, using: NetSpeedLiveActivityAttributes(
+    startDate: Date(),
+    endDate: Date().addingTimeInterval(3600),
+    isSticky: false,
+    content: "Network Activity"
+)) {
     NetSpeedLiveActivity()
 } contentStates: {
     NetSpeedLiveActivityAttributes.ContentState(
@@ -176,3 +183,4 @@ struct LockScreenView: View {
         networkType: "WiFi"
     )
 }
+#endif
