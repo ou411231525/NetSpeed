@@ -1,0 +1,54 @@
+name: Build iOS App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
+
+jobs:
+  build:
+    name: Build NetSpeed
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: List available simulators
+        run: xcrun simctl list devices available | grep -E "iPhone"
+
+      - name: Generate Xcode project
+        run: |
+          which xcodegen || brew install xcodegen
+          xcodegen generate
+
+      - name: Build iOS App
+        run: |
+          xcodebuild -project NetSpeed.xcodeproj \
+            -scheme NetSpeed \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
+            -derivedDataPath ./DerivedData \
+            build CODE_SIGNING_ALLOWED=NO
+
+      - name: Check build status
+        run: |
+          if [ -d "./DerivedData/Build/Products/Debug-iphonesimulator/NetSpeed.app" ]; then
+            echo "Build successful!"
+            ls -la ./DerivedData/Build/Products/Debug-iphonesimulator/
+          else
+            echo "Build failed!"
+            exit 1
+          fi
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: NetSpeed-App
+          path: ./DerivedData/Build/Products/Debug-iphonesimulator/NetSpeed.app
+          retention-days: 7
