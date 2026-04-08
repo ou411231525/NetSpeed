@@ -79,6 +79,20 @@ jobs:
           echo ""
           echo "=== Build output (last 100 lines) ==="
           tail -100 build_output.log
+          echo ""
+          echo "=== Checking DerivedData structure ==="
+          ls -la ./DerivedData/ 2>/dev/null || echo "DerivedData not found"
+          ls -la ./DerivedData/Build/ 2>/dev/null || echo "Build directory not found"
+          ls -la ./DerivedData/Build/Products/ 2>/dev/null || echo "Products directory not found"
+          find ./DerivedData -type d -name "*.app" 2>/dev/null | head -10
+
+      - name: Upload build logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: build-logs
+          path: ./build_output.log
+          retention-days: 7
 
       - name: Check build status
         run: |
@@ -92,6 +106,8 @@ jobs:
             echo "Checking alternative locations..."
             ls -la ./DerivedData/Build/Products/ 2>/dev/null || echo "Products directory not found"
             ls -la ./DerivedData/ 2>/dev/null || echo "DerivedData directory not found"
+            echo "=== Build log (last 50 lines) ==="
+            tail -50 build_output.log 2>/dev/null || echo "No build log found"
             exit 1
           fi
 
