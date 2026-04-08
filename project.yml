@@ -20,8 +20,11 @@ targets:
     platform: iOS
     sources:
       - path: NetSpeed
+        type: group
         excludes:
           - "**/.DS_Store"
+          - "Info.plist"
+          - "*.entitlements"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.netspeed.monitor
@@ -44,8 +47,11 @@ targets:
     platform: iOS
     sources:
       - path: NetSpeedWidget
+        type: group
         excludes:
           - "**/.DS_Store"
+          - "Info.plist"
+          - "*.entitlements"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.netspeed.monitor.widget
@@ -63,8 +69,11 @@ targets:
     platform: iOS
     sources:
       - path: NetSpeedLiveActivity
+        type: group
         excludes:
           - "**/.DS_Store"
+          - "Info.plist"
+          - "*.entitlements"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.netspeed.monitor.liveactivity
