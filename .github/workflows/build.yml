@@ -19,7 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Debug directory structure
+      - name: Debug and fix directory structure
         run: |
           echo "=== Current directory ==="
           pwd
@@ -27,17 +27,38 @@ jobs:
           echo "=== Directory contents ==="
           ls -la
           echo ""
-          echo "=== Subdirectories ==="
-          find . -maxdepth 2 -type d
+          echo "=== Looking for swift files ==="
+          find . -name "*.swift" -type f | head -20
           echo ""
-          echo "=== NetSpeed directory ==="
-          ls -la NetSpeed/ 2>/dev/null || echo "NetSpeed dir not found"
-          echo ""
-          echo "=== NetSpeedWidget directory ==="
-          ls -la NetSpeedWidget/ 2>/dev/null || echo "NetSpeedWidget dir not found"
-          echo ""
-          echo "=== NetSpeedLiveActivity directory ==="
-          ls -la NetSpeedLiveActivity/ 2>/dev/null || echo "NetSpeedLiveActivity dir not found"
+          echo "=== Checking for NetSpeed subdirectory ==="
+          if [ -d "NetSpeed" ]; then
+            echo "NetSpeed directory exists"
+            ls -la NetSpeed/
+          else
+            echo "NetSpeed directory NOT found - need to create"
+            # Check if we have flat structure and need to reorganize
+            if [ -f "NetSpeedApp.swift" ]; then
+              echo "Creating NetSpeed directory..."
+              mkdir -p NetSpeed
+              # Move files to NetSpeed directory
+              for f in *.swift *.plist *.entitlements; do
+                if [ -f "$f" ]; then
+                  mv "$f" NetSpeed/ 2>/dev/null || true
+                fi
+              done
+              # Move directories
+              for d in Extensions Models Resources Services ViewModels Views; do
+                if [ -d "$d" ]; then
+                  mv "$d" NetSpeed/ 2>/dev/null || true
+                fi
+              done
+              echo "Reorganization complete"
+              ls -la
+              echo ""
+              echo "NetSpeed contents:"
+              ls -la NetSpeed/
+            fi
+          fi
 
       - name: List available simulators
         run: xcrun simctl list devices available | grep -E "iPhone"
