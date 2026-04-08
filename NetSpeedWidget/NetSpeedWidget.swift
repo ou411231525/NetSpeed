@@ -179,6 +179,8 @@ struct NetSpeedWidget: Widget {
 }
 
 // MARK: - Preview
+#if DEBUG
+@available(iOS 17.0, *)
 #Preview(as: .systemSmall) {
     NetSpeedWidget()
 } timeline: {
@@ -190,6 +192,7 @@ struct NetSpeedWidget: Widget {
     )
 }
 
+@available(iOS 17.0, *)
 #Preview(as: .systemMedium) {
     NetSpeedWidget()
 } timeline: {
@@ -200,3 +203,4 @@ struct NetSpeedWidget: Widget {
         networkType: "WiFi"
     )
 }
+#endif
