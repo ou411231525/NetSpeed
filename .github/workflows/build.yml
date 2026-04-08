@@ -82,11 +82,16 @@ jobs:
 
       - name: Check build status
         run: |
+          echo "=== Looking for build output ==="
+          find ./DerivedData -name "*.app" -type d 2>/dev/null | head -20
+          echo ""
           if [ -d "./DerivedData/Build/Products/Debug-iphonesimulator/NetSpeed.app" ]; then
             echo "Build successful!"
             ls -la ./DerivedData/Build/Products/Debug-iphonesimulator/
           else
-            echo "Build failed!"
+            echo "Checking alternative locations..."
+            ls -la ./DerivedData/Build/Products/ 2>/dev/null || echo "Products directory not found"
+            ls -la ./DerivedData/ 2>/dev/null || echo "DerivedData directory not found"
             exit 1
           fi
 
