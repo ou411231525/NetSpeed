@@ -75,7 +75,10 @@ jobs:
             -configuration Debug \
             -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
             -derivedDataPath ./DerivedData \
-            build CODE_SIGNING_ALLOWED=NO
+            build CODE_SIGNING_ALLOWED=NO 2>&1 | tee build_output.log
+          echo ""
+          echo "=== Build output (last 100 lines) ==="
+          tail -100 build_output.log
 
       - name: Check build status
         run: |
