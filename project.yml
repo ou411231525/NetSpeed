@@ -5,6 +5,7 @@ options:
     iOS: "16.1"
   xcodeVersion: "15.0"
   generateEmptyDirectories: true
+  createIntermediateGroups: true
 
 settings:
   base:
@@ -20,11 +21,8 @@ targets:
     platform: iOS
     sources:
       - path: NetSpeed
-        type: group
         excludes:
           - "**/.DS_Store"
-          - "Info.plist"
-          - "*.entitlements"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.netspeed.monitor
@@ -47,11 +45,8 @@ targets:
     platform: iOS
     sources:
       - path: NetSpeedWidget
-        type: group
         excludes:
           - "**/.DS_Store"
-          - "Info.plist"
-          - "*.entitlements"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.netspeed.monitor.widget
@@ -69,11 +64,8 @@ targets:
     platform: iOS
     sources:
       - path: NetSpeedLiveActivity
-        type: group
         excludes:
           - "**/.DS_Store"
-          - "Info.plist"
-          - "*.entitlements"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.netspeed.monitor.liveactivity
