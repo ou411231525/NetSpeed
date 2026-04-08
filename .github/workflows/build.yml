@@ -19,6 +19,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Debug directory structure
+        run: |
+          echo "=== Current directory ==="
+          pwd
+          echo ""
+          echo "=== Directory contents ==="
+          ls -la
+          echo ""
+          echo "=== Subdirectories ==="
+          find . -maxdepth 2 -type d
+          echo ""
+          echo "=== NetSpeed directory ==="
+          ls -la NetSpeed/ 2>/dev/null || echo "NetSpeed dir not found"
+          echo ""
+          echo "=== NetSpeedWidget directory ==="
+          ls -la NetSpeedWidget/ 2>/dev/null || echo "NetSpeedWidget dir not found"
+          echo ""
+          echo "=== NetSpeedLiveActivity directory ==="
+          ls -la NetSpeedLiveActivity/ 2>/dev/null || echo "NetSpeedLiveActivity dir not found"
+
       - name: List available simulators
         run: xcrun simctl list devices available | grep -E "iPhone"
 
